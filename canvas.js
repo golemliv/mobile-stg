@@ -18,6 +18,9 @@ class Canvas
         this.right_click_callback = null;
         this.hold_length = 0;
         this.hold_to_right_click = 60;
+
+        this.drag_dist_y = 0;
+        this.last_y = 0;
     }
 
     button_add(button)
@@ -97,9 +100,12 @@ class Canvas
         }
         else
         {
+/*
             var last_y = this.last_touch['touch_y']
             this.last_touch['touch_y'] = new_touch['touch_y'];
-            return last_y - new_touch['touch_y'];
+*/
+            return this.drag_dist_y;
+
         }
 
     }
@@ -204,6 +210,8 @@ class Canvas
             'x_dist': 0,
             'y_dist': 0,
         });
+
+        this.last_y = evt.clientY;
 
         this.last_touch = {
             'touch_x': evt.clientX,
@@ -335,6 +343,12 @@ class Canvas
 
             //now that the step is over, swap user touches from press to hold
             this.touches[i]['event'] = 'hold';
+
+            if(i == 0)
+            {
+                this.drag_dist_y = this.last_y - this.touches[i]['touch_y'];
+                this.last_y = this.touches[i]['touch_y'];
+            }
 
             if(Math.abs(this.touches[i]['x_dist']) < game_info['tile_size'] / 2 && Math.abs(this.touches[i]['y_dist']) < game_info['tile_size'] / 2)
             {
@@ -493,6 +507,8 @@ class Canvas
             curr_touch['last_x'] = curr_touch['touch_x'];
             curr_touch['last_y'] = curr_touch['touch_y'];
             this.touches.push(curr_touch);
+
+            this.last_y = curr_touch['touch_y'];
         }
     }
 

@@ -9,7 +9,8 @@ class Obj_Grid extends Button
         this.x = game_info['inner_offset'];
         this.y = 0;
         this.width = game_info['inner_width'];
-        this.height = game_info['inner_height'];
+
+        this.height = this.width * (4 / 3);
         this.fill_style = '#87CEEB';
 
         this.font_fill = 'rgba(0, 0, 0, 1)';
@@ -46,6 +47,13 @@ class Obj_Grid extends Button
     {
 
         if(this.playing)
+        {
+            return;
+        }
+
+        var obj_button = button_canvas.button_get('obj_list');
+
+        if(obj_button.is_pressed())
         {
             return;
         }
@@ -120,9 +128,11 @@ class Obj_Grid extends Button
 
         if(touches.length == 0)
         {
+
             this.x_curr_drag = 0;
             this.y_curr_drag = 0;
-            if(this.click_x != null && this.click_y != null)
+
+            if(this.click_x != null && this.click_y != null && this.click_x >= 0 && this.click_x <= 0 + this.width && this.click_y >= (-1 * this.y_offset) && this.click_y <= 0 + this.height)
             {
                 this.press();
                 this.click_x = null;
@@ -160,6 +170,13 @@ class Obj_Grid extends Button
         {
             this.context_menu.draw();
         }
+
+        this.canvas.context_get().strokeStyle = '#FF0000';
+        this.canvas.context_get().beginPath();
+        this.canvas.context_get().strokeRect(this.x, this.y, this.width, this.height);
+        this.canvas.context_get().stroke();
+
+        this.canvas.context_get().strokeStyle = '#000000';
 
     }
 

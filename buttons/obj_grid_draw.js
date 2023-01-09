@@ -7,8 +7,8 @@ class Obj_Grid_Draw
         this.name = 'obj_grid_draw';
         this.objects = new Array();
 
-        this.width = game_info['inner_width'];
-        this.height = game_info['inner_height'];
+        this.width = game_info['def_width'];
+        this.height = this.width * (4 / 3);
 
         this.x = 0;
         this.y = 0;
@@ -48,7 +48,7 @@ class Obj_Grid_Draw
         }
 
         canvas_context.fillStyle = this.fill_style;
-        canvas_context.fillRect(this.x, this.y, this.width, this.height);
+        canvas_context.fillRect(this.x, this.y - (this.y_offset / game_info['inner_ratio']) - this.tile_size, this.width, this.height + this.tile_size);
         canvas_context.fill();
 
         for(var i = 0; i < this.objects.length; i++)
@@ -62,8 +62,8 @@ class Obj_Grid_Draw
         for(var i = 0; i < num_verts; i++)
         {
             canvas_context.beginPath();
-            canvas_context.moveTo(this.x + (i * this.tile_size), start_y);
-            canvas_context.lineTo(this.x + (i * this.tile_size), start_y + this.height);
+            canvas_context.moveTo(this.x + (i * this.tile_size), -1 * this.y_offset / game_info['inner_ratio']);
+            canvas_context.lineTo(this.x + (i * this.tile_size), -1 * (this.y_offset / game_info['inner_ratio']) + this.height);
             canvas_context.stroke();
         }
 
@@ -95,6 +95,7 @@ class Obj_Grid_Draw
             game_canvas.translate(0, -1 * ((this.y_offset - this.y_offset_old) / game_info['inner_ratio']));
         }
 
+
     }
 
     height_get()
@@ -124,8 +125,6 @@ class Obj_Grid_Draw
 
     offset_set(x_offset, y_offset)
     {
-
-//console.log(y_offset);
 
 /*
         this.x_translate_total = (this.x_offset - x_offset);
@@ -258,8 +257,6 @@ class Obj_Grid_Draw
         }
 
         var start = game_canvas.level_get().objects_get().length;
-
-//console.log(start, game_canvas.level_get().objects_get());
 
         this.test_object_index_start = 1;
 

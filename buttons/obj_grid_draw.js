@@ -225,48 +225,6 @@ class Obj_Grid_Draw
 
         game_canvas.level_get().level_clear();
 
-//        obj_list.splice(this.test_object_index_start, obj_list.length - this.test_object_index_start);
-
-/*
-        game_info['levels']['custom'] = {
-            'buttons': [
-                {
-                    'x':     0,
-                    'y':     0,
-                    'size':  0.01,
-                    'name':  'Button',
-                    'extra': 'Jump',
-                },
-            ],
-            'objects': [],
-        }
-
-        for(var i = 0; i < this.objects.length; i++)
-        {
-            game_info['levels']['custom']['objects'].push({
-                'x':     this.objects[i].x_get(),
-                'y':     this.objects[i].y_get(),
-                'name':  this.objects[i].name_get(),
-                'extra': this.objects[i].extra_get(),
-            });
-        }
-
-        for(var i = 0; i < game_info['levels']['custom']['buttons'].length; i++)
-        {
-            game_canvas.level_get().button_add(game_info['levels']['custom']['buttons'][i], i);
-        }
-
-        var start = game_canvas.level_get().objects_get().length;
-
-        this.test_object_index_start = 1;
-
-        for(var i = 0; i < game_info['levels']['custom']['objects'].length; i++)
-        {
-//            game_canvas.level_get().queue(game_info['levels']['custom']['objects'][i], i + start);
-            game_canvas.level_get().queue(game_info['levels']['custom']['objects'][i], i + this.test_object_index_start);
-        }
-*/
-
     }
 
     width_get()

@@ -1,39 +1,13 @@
-class Obj_List extends List_Button
+class List_Button extends Button
 {
 
     constructor(x_ratio, y_ratio, radius_ratio, canvas, extra)
     {
         super(x_ratio, y_ratio, radius_ratio, canvas);
-        this.name = 'obj_list';
-        this.label = 'Objects';
+        this.name = 'list';
+        this.label = this.name;
 
-        this.options = [
-            {
-                'display':     'Block',
-                'constructor': 'Block',
-                'extra':       null,
-            },
-            {
-                'display':     'Block2',
-                'constructor': 'Block',
-                'extra':       null,
-            },
-            {
-                'display':     'Block3',
-                'constructor': 'Block',
-                'extra':       null,
-            },
-            {
-                'display':     'Block4',
-                'constructor': 'Block',
-                'extra':       null,
-            },
-            {
-                'display':     'Block5',
-                'constructor': 'Block',
-                'extra':       null,
-            },
-        ];
+        this.options = new Array();
 
         this.width = game_info['inner_width'] / 2;
         this.height = (game_info['width'] * (1 / 4)) - ((game_info['tile_size'] / 2) * game_info['inner_ratio']);
@@ -49,7 +23,7 @@ class Obj_List extends List_Button
         this.button_width = this.list_width;
         this.button_height = game_info['inner_ratio'] * 40;
         this.button_margin = game_info['inner_ratio'] * 4;
-
+        this.option_index = -1;
         this.normal_style = 'rgba(255, 255, 255, 1)';
         this.highlight_style = 'rgba(255, 255, 100, 1)';
         this.font_fill = 'rgba(0, 0, 0, 1)';
@@ -59,12 +33,74 @@ class Obj_List extends List_Button
         this.list_y_offset = 0;
     }
 
+    click_check(touches)
+    {
+
+        for(var i = 0; i < touches.length; i++)
+        {
+
+            //if the user clicks the button itself, open/close the menu and do nothing else
+
+            if(touches[i]['event'] == 'press' && touches[i]['touch_x'] > this.x && touches[i]['touch_x'] < this.x + this.width && touches[i]['touch_y'] > this.y && touches[i]['touch_y'] < this.y + this.height)
+            {
+
+                //initial click
+                if(!this.pressed)
+                {
+                    this.pressed = true;
+                    this.option_index = -1;
+                }
+                else
+                {
+                    this.pressed = false;
+                }
+
+                return;
+
+            }
+
+            //otherwise, check if the user is interacting with the list
+
+            //make sure this touch is touching the bar
+            if(this.pressed && touches[i]['touch_x'] > this.list_x && touches[i]['touch_x'] < this.list_x + this.list_width && touches[i]['touch_y'] > this.list_y && touches[i]['touch_y'] < this.list_y + this.list_height)
+            {
+
+                //get the distance dragged
+                var dist = button_canvas.drag_get_y(touches[i]);
+                this.list_y_offset -= dist;
+
+                //limit the drag within the bounds of the object list
+                if(this.list_y_offset > 0)
+                {
+                    this.list_y_offset = 0;
+                }
+                else if(this.list_y_offset < (this.list_height - ((this.button_height + this.button_margin) * this.options.length)))
+                {
+                    this.list_y_offset = (this.list_height - ((this.button_height + this.button_margin) * this.options.length));
+                }
+
+                this.option_index = Math.floor((touches[i]['touch_y'] - this.list_y_offset) / (this.button_height + this.button_margin));
+
+                if(this.option_index > this.options.length - 1)
+                {
+                    this.option_index = this.options.length - 1;
+                }
+                else if(this.option_index < 0)
+                {
+                    this.option_index = 0;
+                }
+
+            }
+
+        }
+
+    }
+
     curr_obj_get()
     {
         return this.options[this.option_index];
     }
 
-/*
     draw()
     {
 
@@ -73,7 +109,7 @@ class Obj_List extends List_Button
         if(this.pressed)
         {
 
-            for(var i = 0; i < this.obj_list.length; i++)
+            for(var i = 0; i < this.options.length; i++)
             {
 
                 var starting_y = this.list_y_offset + this.list_y + (i * (this.button_height + this.button_margin));
@@ -86,7 +122,7 @@ class Obj_List extends List_Button
 
                 this.canvas.context_get().beginPath();
                 this.canvas.context_get().rect(this.list_x, starting_y, this.button_width, this.button_height);
-                if(this.obj_index == i)
+                if(this.option_index == i)
                 {
                     this.canvas.context_get().fillStyle = this.highlight_style;
                 }
@@ -100,7 +136,7 @@ class Obj_List extends List_Button
                 this.canvas.context_get().fillStyle = this.font_fill;
                 this.canvas.context_get().font = this.font_style;
 
-                var name_arr = this.obj_list[i]['display'].split(' ');
+                var name_arr = this.options[i]['display'].split(' ');
                 var curr_row = '';
                 var row_num = 0;
                 for(var j = 0; j < name_arr.length; j++)
@@ -146,12 +182,11 @@ class Obj_List extends List_Button
         this.canvas.context_get().fillStyle = this.font_fill;
         this.canvas.context_get().font = this.font_style;
 
-        var text = this.canvas.context_get().measureText('Objects');
+        var text = this.canvas.context_get().measureText(this.label);
 
-        this.canvas.context_get().fillText('Objects', this.x - (text.width / 2) + (this.width / 2), this.y + (this.height / 2) - (this.font_size / 2));
+        this.canvas.context_get().fillText(this.label, this.x - (text.width / 2) + (this.width / 2), this.y + (this.height / 2) - (this.font_size / 2));
 
     }
-*/
 
     press()
     {
@@ -160,4 +195,4 @@ class Obj_List extends List_Button
 
 }
 
-constructors['Obj_List'] = Obj_List;
+constructors['List_Button'] = List_Button;

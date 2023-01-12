@@ -58,6 +58,13 @@ class Obj_Grid extends Button
             return;
         }
 
+        var file_button = button_canvas.button_get('file');
+
+        if(file_button.is_pressed())
+        {
+            return;
+        }
+
         if(this.context_menu != null)
         {
             this.context_menu.click_check(touches);
@@ -162,7 +169,10 @@ class Obj_Grid extends Button
 
         var obj_button = button_canvas.button_get('obj_list');
         var obj = obj_button.curr_obj_get();
-        this.canvas.context_get().fillText(obj['display'], this.x, this.y + this.font_size);
+        if(obj != null)
+        {
+            this.canvas.context_get().fillText(obj['display'], this.x, this.y + this.font_size);
+        }
 
         //draw context menu when right-clicking
 
@@ -185,6 +195,11 @@ class Obj_Grid extends Button
 
         var obj_button = button_canvas.button_get('obj_list');
         var obj = obj_button.curr_obj_get();
+
+        if(obj == null)
+        {
+            return;
+        }
 
         var obj_x = Math.floor((this.click_x / game_info['inner_ratio']) / this.tile_size) * this.tile_size;
         var obj_y = Math.floor((this.click_y / game_info['inner_ratio']) / this.tile_size) * this.tile_size;

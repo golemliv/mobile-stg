@@ -79,6 +79,18 @@ class Level
 
     }
 
+    camera_get(x_or_y)
+    {
+        if(x_or_y == 'x')
+        {
+            return this.camera_x;
+        }
+        else
+        {
+            return this.camera_y;
+        }
+    }
+
     camera_find()
     {
 
@@ -86,11 +98,16 @@ class Level
 
         if(this.player != null)
         {
+console.log('player present');
             this.camera_y = this.player.y_get() - game_info['def_height'] + (this.player.height_get() * 4);
-
-            this.curr_segment_x = Math.floor(this.camera_x / game_info['def_width']);
-            this.curr_segment_y = Math.floor(this.camera_y / game_info['def_height']);
         }
+        else
+        {
+//            this.camera_y = 0;
+        }
+
+        this.curr_segment_x = Math.floor(this.camera_x / game_info['def_width']);
+        this.curr_segment_y = Math.floor(this.camera_y / game_info['def_height']);
 
         this.camera_inner_left = this.camera_x;
         this.camera_inner_right = this.camera_x + game_info['def_width'];
@@ -110,6 +127,8 @@ class Level
         this.camera_y = old_camera_y - y_dist;
 
         game_canvas.translate(0, y_dist);
+
+console.log(this.camera_y, old_camera_y, 'camera y')
 
     }
 
@@ -142,13 +161,13 @@ class Level
 
         for(var i = 0; i < obj_keys.length; i++)
         {
-            if(this.objects[obj_keys[i]].name_get() != 'obj_grid_draw')
+            if(this.objects[obj_keys[i]].name_get() != 'Obj_Grid_Draw')
             {
                 delete this.objects[obj_keys[i]];
             }
         }
 
-        for(var x = this.curr_segment_x - 1; x <= this.curr_segment_x + 1; x++)
+        for(var x = 0; x <= this.segments.length; x++)
         {
 
             if(this.segments[x] == null)
@@ -156,7 +175,7 @@ class Level
                 continue;
             }
 
-            for(var y = this.curr_segment_y - 1; y <= this.curr_segment_y + 1; y++)
+            for(var y = 0; y <= this.segments[x].length; y++)
             {
 
                 if(this.segments[x][y] == null)
@@ -166,8 +185,9 @@ class Level
 
                 for(var i = 0; i < this.segments[x][y]['objects'].length; i++)
                 {
-                    if(this.segments[x][y]['objects'][i].name_get() != 'obj_grid_draw')
+                    if(this.segments[x][y]['objects'][i] == null || this.segments[x][y]['objects'][i].name_get() != 'Obj_Grid_Draw')
                     {
+console.log(this.segments[x][y]['objects'][i].name_get(), 'name');
                         delete this.segments[x][y]['objects'][i];
                         this.segments[x][y]['objects'].splice(i, 1);
                         i--;
@@ -177,6 +197,12 @@ class Level
             }
 
         }
+
+//        this.segments = new Array();
+
+        this.player = null;
+
+console.log('level clear done');
 
     }
 
@@ -228,6 +254,8 @@ class Level
             };
         }
 
+console.log(obj['name'], 'obj name');
+
         this.segments[x_seg][y_seg]['objects'].push(new Level_Object(obj, id));
 
         //start in the segment where the player spawns
@@ -271,6 +299,7 @@ class Level
                             this.objects[this.segments[x][y]['objects'][i].id_get()] = new_obj;
                             if(this.segments[x][y]['objects'][i].name_get() == 'Player')
                             {
+console.log('step new player');
                                 this.player = new_obj;
                             }
                         }

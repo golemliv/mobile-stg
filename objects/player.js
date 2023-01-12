@@ -9,10 +9,12 @@ class Player extends GObject
         this.height = game_info['tile_size'];
         this.y_vel = -0.5; //scroll speed
         this.x_vel = 0; //current horizontal speed
-        this.x_cap = 10; //maximum horizontal speed
+        this.x_cap = 4; //maximum horizontal speed
         this.prev_x = 0; //your x position from the last frame
         this.prev_y = 0; //your y position from the last frame
         this.stroke_style = '#000000';
+
+console.log('player constructor');
 
     }
 
@@ -54,6 +56,27 @@ class Player extends GObject
 
         this.prev_x = this.x;
         this.prev_y = this.y;
+
+        var slider = button_canvas.button_get('move_slider');
+
+        if(slider != null)
+        {
+
+            var new_x = slider.knob_offset_get() / game_info['inner_ratio'];
+
+            if(new_x - this.x > this.x_cap)
+            {
+                new_x = this.x + this.x_cap;
+            }
+
+            if(this.x - new_x > this.x_cap)
+            {
+                new_x = this.x - this.x_cap;
+            }
+
+            this.x = new_x;
+
+        }
 
         this.y += this.y_vel;
 

@@ -45,6 +45,11 @@ class Editor_Save extends List_Button
     click_check(touches)
     {
 
+        if(button_canvas.button_get('obj_grid').playing_get())
+        {
+            return;
+        }
+
         super.click_check(touches);
 
         if(this.option_index == -1)
@@ -56,11 +61,11 @@ class Editor_Save extends List_Button
         {
             case 'Save':
                 this.canvas.mouse_up(null);
-                if(game_canvas.level_get().object_get('obj_grid_draw') == null)
+                if(game_canvas.level_get().object_get('Obj_Grid_Draw') == null)
                 {
                     return;
                 }
-                game_canvas.level_get().object_get('obj_grid_draw').save();
+                game_canvas.level_get().object_get('Obj_Grid_Draw').save();
                 break;
 
             case 'Load':
@@ -70,14 +75,14 @@ class Editor_Save extends List_Button
 
             case 'Play':
                 this.canvas.mouse_up(null);
-                this.options[this.option_index]['display'] = 'Stop';
-                game_canvas.level_get().object_get('obj_grid_draw').play();
+//                this.options[this.option_index]['display'] = 'Stop';
+                game_canvas.level_get().object_get('Obj_Grid_Draw').play();
                 break;
 
             case 'Stop':
                 this.canvas.mouse_up(null);
                 this.options[this.option_index]['display'] = 'Play';
-                game_canvas.level_get().object_get('obj_grid_draw').stop();
+                game_canvas.level_get().object_get('Obj_Grid_Draw').stop();
                 break;
 
         }
@@ -91,6 +96,8 @@ class Editor_Save extends List_Button
     file_load(contents)
     {
 
+console.log('load');
+
         var new_level = JSON.parse(contents);
 
         if(new_level == null || new_level['objects'] == null)
@@ -98,19 +105,32 @@ class Editor_Save extends List_Button
             return;
         }
 
+/*
         var objects = game_canvas.level_get().object_get('obj_grid_draw').objects_get();
         objects.splice(0, objects.length);
+*/
+
+        game_canvas.level_get().level_clear();
+
+        console.log('before', JSON.parse(JSON.stringify(game_canvas.level_get().objects_get())));
 
         for(var i = 0; i < new_level['objects'].length; i++)
         {
 
             var settings = new_level['objects'][i];
 
+console.log(settings);
+
             var new_obj = new constructors[settings['name']](settings['x'], settings['y'], settings['extra']);
 
-            game_canvas.level_get().object_get('obj_grid_draw').object_add(new_obj);
+            game_canvas.level_get().object_get('Obj_Grid_Draw').object_add(new_obj);
 
         }
+
+        console.log('after', game_canvas.level_get().camera_get('y'));
+
+
+                game_canvas.level_get().object_get('Obj_Grid_Draw').offset_set(0, game_canvas.level_get().camera_get('y'));
 
     }
 

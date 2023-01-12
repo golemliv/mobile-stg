@@ -48,7 +48,7 @@ class Button
         this.canvas.context_get().font = this.font_style;
         this.canvas.context_get().fillStyle = this.font_fill;
         var text = this.canvas.context_get().measureText(this.label);
-        this.canvas.context_get().fillText(this.label, this.x - (text.width / 2), this.y + (this.font_size / 2));
+        this.canvas.context_get().fillText(this.label, this.x - (text.width / 2), this.y + (this.font_size / 3));
     }
 
     is_pressed()

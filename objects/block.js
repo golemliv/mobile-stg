@@ -3,7 +3,7 @@ class Block extends GObject
 
     constructor(x, y, extra)
     {
-        super(x, y, extra, 'block');
+        super(x, y, extra, 'Block');
 
         this.width = game_info['tile_size'];
         this.height = game_info['tile_size'];

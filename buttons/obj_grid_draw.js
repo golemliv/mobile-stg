@@ -4,7 +4,7 @@ class Obj_Grid_Draw
     constructor(x, y, extra)
     {
 
-        this.name = 'obj_grid_draw';
+        this.name = 'Obj_Grid_Draw';
         this.objects = new Array();
 
         this.width = game_info['def_width'];
@@ -14,6 +14,9 @@ class Obj_Grid_Draw
         this.y = 0;
 
         this.x_offset = 0;
+
+//console.log('init');
+
         this.y_offset = game_info['def_height'];
         this.x_offset_old = 0;
         this.y_offset_old = game_info['def_height'];
@@ -46,6 +49,8 @@ class Obj_Grid_Draw
         {
             return;
         }
+
+//console.log('draw grid a', this.y_offset);
 
         canvas_context.fillStyle = this.fill_style;
         canvas_context.fillRect(this.x, this.y - (this.y_offset / game_info['inner_ratio']) - this.tile_size, this.width, this.height + this.tile_size);
@@ -96,6 +101,9 @@ class Obj_Grid_Draw
         }
 
         game_canvas.level_get().camera_set(0, -1 * this.y_offset / game_info['inner_ratio']);
+
+
+//console.log('draw grid b', this.y_offset);
 
     }
 
@@ -151,14 +159,23 @@ class Obj_Grid_Draw
 
         this.playing = true;
 
+        button_canvas.button_get('obj_grid').playing_set(true);
+
         game_info['levels']['custom'] = {
             'buttons': [
                 {
                     'x':     0,
                     'y':     0,
-                    'size':  0.01,
-                    'name':  'Button',
-                    'extra': 'Jump',
+                    'size':  0,
+                    'name':  'Move',
+                    'extra': {},
+                },
+                {
+                    'x':     0,
+                    'y':     0,
+                    'size':  0,
+                    'name':  'Stop_Button',
+                    'extra': {},
                 },
             ],
             'objects': [],
@@ -187,7 +204,7 @@ class Obj_Grid_Draw
         }
 
         game_canvas.level_get().queue({
-            'x':     (game_info['def_width'] / 2) - (game_info['tile_size'] / 4),
+            'x':     (game_info['def_width'] / 2) - (game_info['tile_size'] / 4), //start the player in the middle of the screen
             'y':     (-1 * (this.y_offset / game_info['inner_ratio'])) + game_info['def_height'], //start the player towards the bottom of the screen you're looking at
             'name':  'Player',
             'extra': {},
@@ -228,7 +245,14 @@ class Obj_Grid_Draw
 
         this.playing = false;
 
-        game_canvas.level_get().level_clear();
+        button_canvas.button_get('obj_grid').playing_set(false);
+
+        button_canvas.button_remove('Stop_Button');
+        button_canvas.button_remove('move_slider');
+
+var contents = {'objects': this.objects};
+
+button_canvas.button_get('file').file_load(JSON.stringify(contents));
 
     }
 

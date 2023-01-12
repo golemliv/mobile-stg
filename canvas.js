@@ -39,6 +39,17 @@ class Canvas
         }
     }
 
+    button_remove(name)
+    {
+        for(var i = 0; i < this.buttons.length; i++)
+        {
+            if(this.buttons[i].name_get() == name)
+            {
+                this.buttons.splice(i, 1);
+            }
+        }
+    }
+
     buttons_get()
     {
         return this.buttons;

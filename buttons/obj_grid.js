@@ -125,13 +125,15 @@ class Obj_Grid extends Button
                     this.click_y = touches[i]['touch_y'] - this.y - this.y_offset;
                 }
 
-                game_canvas.level_get().object_get('obj_grid_draw').offset_set(this.x_offset, this.y_offset);
+                game_canvas.level_get().object_get('Obj_Grid_Draw').offset_set(this.x_offset, this.y_offset);
 
                 return;
             }
         }
 
-        game_canvas.level_get().object_get('obj_grid_draw').offset_set(this.x_offset, this.y_offset);
+//console.log('click check', this.y_offset);
+
+        game_canvas.level_get().object_get('Obj_Grid_Draw').offset_set(this.x_offset, this.y_offset);
 
         if(touches.length == 0)
         {
@@ -156,7 +158,7 @@ class Obj_Grid extends Button
 
         if(item == 'Delete')
         {
-            var objects = game_canvas.level_get().object_get('obj_grid_draw').objects_get();
+            var objects = game_canvas.level_get().object_get('Obj_Grid_Draw').objects_get();
             objects.splice(this.context_obj, 1);
         }
     }
@@ -190,6 +192,16 @@ class Obj_Grid extends Button
 
     }
 
+    playing_get()
+    {
+        return this.playing;
+    }
+
+    playing_set(playing)
+    {
+        this.playing = playing;
+    }
+
     press()
     {
 
@@ -206,7 +218,7 @@ class Obj_Grid extends Button
 
         var new_obj = new constructors[obj['constructor']](obj_x, obj_y, obj['extra']);
 
-        game_canvas.level_get().object_get('obj_grid_draw').object_add(new_obj);
+        game_canvas.level_get().object_get('Obj_Grid_Draw').object_add(new_obj);
 
         super.press();
 
@@ -226,12 +238,12 @@ class Obj_Grid extends Button
         this.click_x = canvas_x;
         this.click_y = canvas_y;
 
-        if(game_canvas == null || game_canvas.level_get() == null || game_canvas.level_get().object_get('obj_grid_draw') == null || game_canvas.level_get().object_get('obj_grid_draw').objects_get() == null)
+        if(game_canvas == null || game_canvas.level_get() == null || game_canvas.level_get().object_get('Obj_Grid_Draw') == null || game_canvas.level_get().object_get('Obj_Grid_Draw').objects_get() == null)
         {
             return;
         }
 
-        var objects = game_canvas.level_get().object_get('obj_grid_draw').objects_get();
+        var objects = game_canvas.level_get().object_get('Obj_Grid_Draw').objects_get();
 
         for(var i = 0; i < objects.length; i++)
         {

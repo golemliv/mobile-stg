@@ -95,6 +95,7 @@ class Obj_Grid_Draw
             game_canvas.translate(0, -1 * ((this.y_offset - this.y_offset_old) / game_info['inner_ratio']));
         }
 
+        game_canvas.level_get().camera_set(0, -1 * this.y_offset / game_info['inner_ratio']);
 
     }
 
@@ -178,15 +179,19 @@ class Obj_Grid_Draw
             game_canvas.level_get().button_add(game_info['levels']['custom']['buttons'][i], i);
         }
 
-        var start = game_canvas.level_get().objects_get().length;
-
-        this.test_object_index_start = 1;
+        this.test_object_index_start = 2;
 
         for(var i = 0; i < game_info['levels']['custom']['objects'].length; i++)
         {
-//            game_canvas.level_get().queue(game_info['levels']['custom']['objects'][i], i + start);
             game_canvas.level_get().queue(game_info['levels']['custom']['objects'][i], i + this.test_object_index_start);
         }
+
+        game_canvas.level_get().queue({
+            'x':     (game_info['def_width'] / 2) - (game_info['tile_size'] / 4),
+            'y':     (-1 * (this.y_offset / game_info['inner_ratio'])) + game_info['def_height'], //start the player towards the bottom of the screen you're looking at
+            'name':  'Player',
+            'extra': {},
+        }, 1);
 
     }
 

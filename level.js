@@ -39,7 +39,7 @@ class Level
         this.camera_outer_top = this.camera_y - (this.camera_tile_outer_bound * this.tile_size);
         this.camera_outer_bottom = this.camera_y + game_info['def_height'] + (this.camera_tile_outer_bound * this.tile_size);
 
-        this.camera_speed = 5;
+        //this.camera_speed = 5;
 
         button_canvas.buttons_clean();
 
@@ -82,13 +82,11 @@ class Level
     camera_find()
     {
 
-        var old_camera_x = this.camera_x;
         var old_camera_y = this.camera_y;
 
         if(this.player != null)
         {
-            this.camera_x = this.player.x_get() + (this.player.width_get() / 2) - (game_info['def_width'] / 2);
-            this.camera_y = this.player.y_get() + (this.player.height_get() / 2) - (game_info['def_height'] / 2);
+            this.camera_y = this.player.y_get() - game_info['def_height'] + (this.player.height_get() * 4);
 
             this.curr_segment_x = Math.floor(this.camera_x / game_info['def_width']);
             this.curr_segment_y = Math.floor(this.camera_y / game_info['def_height']);
@@ -106,32 +104,22 @@ class Level
         this.camera_outer_top = this.camera_y - (this.camera_tile_outer_bound * this.tile_size);
         this.camera_outer_bottom = this.camera_y + game_info['def_height'] + (this.camera_tile_outer_bound * this.tile_size);
 
-        var x_dist = -1 * (this.camera_x - old_camera_x);
         var y_dist = -1 * (this.camera_y - old_camera_y);
 
-        if(x_dist < this.camera_speed * -1)
-        {
-            x_dist = this.camera_speed * -1;
-        }
-        else if(x_dist > this.camera_speed)
-        {
-            x_dist = this.camera_speed;
-        }
-
-        if(y_dist < this.camera_speed * -1)
-        {
-            y_dist = this.camera_speed * -1;
-        }
-        else if(y_dist > this.camera_speed)
-        {
-            y_dist = this.camera_speed;
-        }
-
-        this.camera_x = old_camera_x - x_dist;
+        this.camera_x = 0;
         this.camera_y = old_camera_y - y_dist;
 
-        game_canvas.translate(x_dist, y_dist);
+        game_canvas.translate(0, y_dist);
 
+    }
+
+    //update the camera with where it actually is (doesn't change the camera's position, just changes what the camera calls its current position)
+    //input: X and Y position
+    //output: N/A
+    camera_set(x, y)
+    {
+        this.camera_x = x;
+        this.camera_y = y;
     }
 
     hud_draw(data, canvas_context)

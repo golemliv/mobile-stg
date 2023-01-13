@@ -129,8 +129,10 @@ console.log(settings);
 
         console.log('after', game_canvas.level_get().camera_get('y'));
 
+        game_canvas.level_get().object_get('Obj_Grid_Draw').offset_set(0, 0 * game_canvas.level_get().camera_get('y'));
 
-                game_canvas.level_get().object_get('Obj_Grid_Draw').offset_set(0, game_canvas.level_get().camera_get('y'));
+        game_canvas.level_get().object_get('Obj_Grid_Draw')['y'] = game_canvas.level_get().camera_get('y');
+        button_canvas.button_get('obj_grid')['y'] = game_canvas.level_get().camera_get('y') / game_info['inner_ratio'];
 
     }
 

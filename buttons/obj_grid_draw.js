@@ -63,12 +63,12 @@ class Obj_Grid_Draw
 
         canvas_context.strokeStyle = this.grid_style;
         var num_verts = Math.ceil(this.width / this.tile_size);
-        var start_y = (this.y_offset / game_info['inner_ratio']) % this.tile_size - (this.y_offset / game_info['inner_ratio']) - this.tile_size;
+        var start_y = this.y + (this.y_offset / game_info['inner_ratio']) % this.tile_size - (this.y_offset / game_info['inner_ratio']) - this.tile_size;
         for(var i = 0; i < num_verts; i++)
         {
             canvas_context.beginPath();
-            canvas_context.moveTo(this.x + (i * this.tile_size), -1 * this.y_offset / game_info['inner_ratio']);
-            canvas_context.lineTo(this.x + (i * this.tile_size), -1 * (this.y_offset / game_info['inner_ratio']) + this.height);
+            canvas_context.moveTo(this.x + (i * this.tile_size), this.y + (-1 * this.y_offset / game_info['inner_ratio']));
+            canvas_context.lineTo(this.x + (i * this.tile_size), this.y + (-1 * (this.y_offset / game_info['inner_ratio']) + this.height));
             canvas_context.stroke();
         }
 

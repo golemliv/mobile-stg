@@ -99,8 +99,6 @@ class Editor_Save extends List_Button
     file_load(contents)
     {
 
-console.log('load');
-
         var new_level = JSON.parse(contents);
 
         if(new_level == null || new_level['objects'] == null)

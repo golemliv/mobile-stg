@@ -98,12 +98,7 @@ class Level
 
         if(this.player != null)
         {
-console.log('player present');
             this.camera_y = this.player.y_get() - game_info['def_height'] + (this.player.height_get() * 4);
-        }
-        else
-        {
-//            this.camera_y = 0;
         }
 
         this.curr_segment_x = Math.floor(this.camera_x / game_info['def_width']);
@@ -127,8 +122,6 @@ console.log('player present');
         this.camera_y = old_camera_y - y_dist;
 
         game_canvas.translate(0, y_dist);
-
-console.log(this.camera_y, old_camera_y, 'camera y')
 
     }
 
@@ -187,7 +180,6 @@ console.log(this.camera_y, old_camera_y, 'camera y')
                 {
                     if(this.segments[x][y]['objects'][i] == null || this.segments[x][y]['objects'][i].name_get() != 'Obj_Grid_Draw')
                     {
-console.log(this.segments[x][y]['objects'][i].name_get(), 'name');
                         delete this.segments[x][y]['objects'][i];
                         this.segments[x][y]['objects'].splice(i, 1);
                         i--;
@@ -198,11 +190,9 @@ console.log(this.segments[x][y]['objects'][i].name_get(), 'name');
 
         }
 
-//        this.segments = new Array();
+        this.segments = new Array();
 
         this.player = null;
-
-console.log('level clear done');
 
     }
 
@@ -254,8 +244,6 @@ console.log('level clear done');
             };
         }
 
-console.log(obj['name'], 'obj name');
-
         this.segments[x_seg][y_seg]['objects'].push(new Level_Object(obj, id));
 
         //start in the segment where the player spawns
@@ -299,7 +287,6 @@ console.log(obj['name'], 'obj name');
                             this.objects[this.segments[x][y]['objects'][i].id_get()] = new_obj;
                             if(this.segments[x][y]['objects'][i].name_get() == 'Player')
                             {
-console.log('step new player');
                                 this.player = new_obj;
                             }
                         }

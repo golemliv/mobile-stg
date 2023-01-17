@@ -39,6 +39,8 @@ class Editor_Save extends List_Button
         this.font_size = game_info['inner_ratio'] * 10;
         this.font_style = this.font_size.toString() + 'px Arial';
 
+        this.init_y_offset = 0;
+
         this.y_offset = 0;
     }
 
@@ -76,6 +78,7 @@ class Editor_Save extends List_Button
             case 'Play':
                 this.canvas.mouse_up(null);
 //                this.options[this.option_index]['display'] = 'Stop';
+                this.init_y_offset = game_canvas.level_get().camera_get('y');
                 game_canvas.level_get().object_get('Obj_Grid_Draw').play();
                 break;
 
@@ -105,21 +108,16 @@ console.log('load');
             return;
         }
 
-/*
-        var objects = game_canvas.level_get().object_get('obj_grid_draw').objects_get();
-        objects.splice(0, objects.length);
-*/
-
         game_canvas.level_get().level_clear();
 
-        console.log('before', JSON.parse(JSON.stringify(game_canvas.level_get().objects_get())));
+        console.log('before', JSON.parse(JSON.stringify(game_canvas.level_get().objects_get())), game_canvas.level_get().camera_get('y'));
+
+        var offset = game_canvas.level_get().camera_get('y');
 
         for(var i = 0; i < new_level['objects'].length; i++)
         {
 
             var settings = new_level['objects'][i];
-
-console.log(settings);
 
             var new_obj = new constructors[settings['name']](settings['x'], settings['y'], settings['extra']);
 
@@ -127,12 +125,10 @@ console.log(settings);
 
         }
 
-        console.log('after', game_canvas.level_get().camera_get('y'));
+        console.log('after', JSON.parse(JSON.stringify(game_canvas.level_get().objects_get())), game_canvas.level_get().camera_get('y'));
 
-        game_canvas.level_get().object_get('Obj_Grid_Draw').offset_set(0, 0 * game_canvas.level_get().camera_get('y'));
-
-        game_canvas.level_get().object_get('Obj_Grid_Draw')['y'] = game_canvas.level_get().camera_get('y');
-        button_canvas.button_get('obj_grid')['y'] = game_canvas.level_get().camera_get('y') / game_info['inner_ratio'];
+        //move the game canvas back into place, where it was before the player clicked "play"
+        game_canvas.translate(0, offset - this.init_y_offset);
 
     }
 

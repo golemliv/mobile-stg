@@ -15,8 +15,6 @@ class Obj_Grid_Draw
 
         this.x_offset = 0;
 
-//console.log('init');
-
         this.y_offset = game_info['def_height'];
         this.x_offset_old = 0;
         this.y_offset_old = game_info['def_height'];
@@ -49,8 +47,6 @@ class Obj_Grid_Draw
         {
             return;
         }
-
-//console.log('draw grid a', this.y_offset);
 
         canvas_context.fillStyle = this.fill_style;
         canvas_context.fillRect(this.x, this.y - (this.y_offset / game_info['inner_ratio']) - this.tile_size, this.width, this.height + this.tile_size);
@@ -101,9 +97,6 @@ class Obj_Grid_Draw
         }
 
         game_canvas.level_get().camera_set(0, -1 * this.y_offset / game_info['inner_ratio']);
-
-
-//console.log('draw grid b', this.y_offset);
 
     }
 

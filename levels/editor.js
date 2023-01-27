@@ -20,7 +20,7 @@ game_info['levels']['editor'] = {
             'x':    0,
             'y':    0,
             'size': 1,
-            'name': 'Obj_List',
+            'name': 'Editor_Design',
         },
         {
             'x':    0,

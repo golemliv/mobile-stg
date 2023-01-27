@@ -17,6 +17,7 @@ var game_info = {
     'tile_size':     16,
     'debug':         true,
     'debug_element': '',
+    'font_face':     'Arial',
 };
 
 var constructors = {};

@@ -28,7 +28,7 @@ class List_Button extends Button
         this.highlight_style = 'rgba(255, 255, 100, 1)';
         this.font_fill = 'rgba(0, 0, 0, 1)';
         this.font_size = game_info['inner_ratio'] * 10;
-        this.font_style = this.font_size.toString() + 'px ' + game_info['font_face'];
+        this.font_style = this.font_size.toString() + 'px Arial';
 
         this.option_index = -1;
 

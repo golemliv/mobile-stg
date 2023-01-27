@@ -20,10 +20,10 @@ class Editor_Save extends List_Button
         ];
 
         this.width = game_info['inner_width'] / 2;
-        this.height = (game_info['width'] * (1 / 4)) - ((game_info['tile_size'] / 2) * game_info['inner_ratio']);
+        this.height = game_info['inner_height'] * (1 / 4);
 
         this.x = game_info['inner_offset'];
-        this.y = game_info['inner_width'] * (4 / 3);
+        this.y = game_info['inner_height'] * (3 / 4);
 
         this.list_x = game_info['inner_offset'];
         this.list_y = 0;

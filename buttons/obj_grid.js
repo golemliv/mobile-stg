@@ -34,6 +34,8 @@ class Obj_Grid extends Button
 
         this.objects = new Array();
 
+        this.curr_obj_name = '';
+
         canvas.right_click_callback_set(this.right_click.bind(this));
 
         this.context_obj = null;
@@ -51,7 +53,7 @@ class Obj_Grid extends Button
             return;
         }
 
-        var obj_button = button_canvas.button_get('obj_list');
+        var obj_button = button_canvas.button_get('Editor_Design');
 
         if(obj_button.is_pressed())
         {
@@ -125,7 +127,10 @@ class Obj_Grid extends Button
                     this.click_y = touches[i]['touch_y'] - this.y - this.y_offset;
                 }
 
-                game_canvas.level_get().object_get('Obj_Grid_Draw').offset_set(this.x_offset, this.y_offset);
+                if(game_canvas.level_get().object_get('Obj_Grid_Draw') != null)
+                {
+                    game_canvas.level_get().object_get('Obj_Grid_Draw').offset_set(this.x_offset, this.y_offset);
+                }
 
                 return;
             }
@@ -133,7 +138,10 @@ class Obj_Grid extends Button
 
 //console.log('click check', this.y_offset);
 
-        game_canvas.level_get().object_get('Obj_Grid_Draw').offset_set(this.x_offset, this.y_offset);
+        if(game_canvas.level_get().object_get('Obj_Grid_Draw') != null)
+        {
+            game_canvas.level_get().object_get('Obj_Grid_Draw').offset_set(this.x_offset, this.y_offset);
+        }
 
         if(touches.length == 0)
         {
@@ -163,18 +171,19 @@ class Obj_Grid extends Button
         }
     }
 
+    //use this to set the display at the top left
+    curr_obj_name_set(name)
+    {
+        this.curr_obj_name = name;
+    }
+
     draw()
     {
 
         this.canvas.context_get().fillStyle = this.font_fill;
         this.canvas.context_get().font = this.font_style;
 
-        var obj_button = button_canvas.button_get('obj_list');
-        var obj = obj_button.curr_obj_get();
-        if(obj != null)
-        {
-            this.canvas.context_get().fillText(obj['display'], this.x, this.y + this.font_size);
-        }
+        this.canvas.context_get().fillText(this.curr_obj_name, this.x, this.y + this.font_size);
 
         //draw context menu when right-clicking
 

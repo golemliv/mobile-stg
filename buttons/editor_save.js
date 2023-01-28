@@ -96,6 +96,19 @@ class Editor_Save extends List_Button
 
     }
 
+    draw()
+    {
+
+        //don't show this button if you're doing a test play
+        if(button_canvas.button_get('obj_grid').playing_get())
+        {
+            return;
+        }
+
+        super.draw();
+
+    }
+
     file_load(contents)
     {
 

@@ -38,7 +38,7 @@ class List_Objects extends List
         this.y = game_info['inner_height'] * 0.25;
 
         this.width = game_info['inner_width'] * 0.5;
-        this.height = game_info['inner_height'] * 0.5;
+        this.height = game_info['inner_height'] * 0.4;
 
         this.scratch_canvas.setAttribute('width', this.width + this.x);
         this.scratch_canvas.setAttribute('height', this.height + this.y);

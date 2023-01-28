@@ -21,6 +21,12 @@ class Modal_Obj_List extends Modal
 
         this.child_add(new constructors['List_Objects'](0, 0, 0, button_canvas, null));
 
+        var ok_btn = new constructors['Button']((game_info['inner_width'] * 0.5) / game_info['inner_ratio'], (game_info['inner_height'] * 0.77) / game_info['inner_ratio'], game_info['tile_size'] * 0.75, button_canvas, {'label': 'OK', 'name': 'Modal Obj List OK'});
+
+        ok_btn.press_func_set(button_canvas.button_remove.bind(button_canvas, 'modal_obj_list'));
+
+        this.child_add(ok_btn);
+
     }
 
     draw()

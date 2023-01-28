@@ -1,15 +1,15 @@
 game_info['levels']['title'] = {
     'buttons': [
         {
-            'x':    0.25,
-            'y':    0.5,
-            'size': 0.1,
+            'x':    40,
+            'y':    30,
+            'size': 20,
             'name': 'start_button',
         },
         {
-            'x':    0.75,
-            'y':    0.5,
-            'size': 0.1,
+            'x':    40,
+            'y':    110,
+            'size': 20,
             'name': 'Editor_Button',
         },
     ],

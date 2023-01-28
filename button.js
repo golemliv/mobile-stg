@@ -1,23 +1,45 @@
 class Button
 {
 
-    constructor(x_ratio, y_ratio, radius_ratio, canvas, extra)
+    constructor(x, y, radius_ratio, canvas, extra)
     {
-        this.name = name;
+
         this.pressed = false;
         this.canvas = canvas;
         this.extra = extra;
 
+        this.press_func = null;
+        this.name = null;
+
+/*
         this.x = parseFloat(this.canvas.dom_obj_get().getAttribute('width')) * x_ratio;
         this.y = parseFloat(this.canvas.dom_obj_get().getAttribute('height')) * y_ratio;
         this.radius = parseFloat(this.canvas.dom_obj_get().getAttribute('width')) * radius_ratio;
+*/
+
+        this.x = (x * game_info['inner_ratio']) + game_info['inner_offset'];
+        this.y = (y * game_info['inner_ratio']);
+        this.radius = radius_ratio * game_info['inner_ratio'];
 
         this.button_fill = 'rgba(255, 255, 255, 1)';
         this.font_fill = 'rgba(0, 0, 0, 1)';
-        this.font_size = 20 * game_info['inner_ratio'];
-        this.font_style = this.font_size.toString() + 'px Arial';
+        this.font_size = 10 * game_info['inner_ratio'];
+        this.font_style = this.font_size.toString() + 'px ' + game_info['font_face'];
 
         this.label = '';
+
+        if(extra != null)
+        {
+            if(extra['label'] != null)
+            {
+                this.label = extra['label'];
+            }
+            if(extra['label'] != null)
+            {
+                this.label = extra['label'];
+            }
+        }
+
     }
 
     click_check(touches)
@@ -31,7 +53,7 @@ class Button
                 {
                     this.press();
                 }
-                return;
+                return true;
             }
         }
         this.pressed = false;
@@ -63,7 +85,17 @@ class Button
 
     press()
     {
+        if(this.press_func != null)
+        {
+            this.press_func();
+        }
         this.pressed = true;
+    }
+
+    //set a function to call when pressed
+    press_func_set(func)
+    {
+        this.press_func = func;
     }
 
     unpress()

@@ -37,7 +37,24 @@ class Modal extends Button
             }
         }
 
-        return hit;
+        if(hit)
+        {
+            return true;
+        }
+
+        //cancel the touch if you click the modal
+        for(var i = 0; i < touches.length; i++)
+        {
+
+            //if you click this
+            if(touches[i]['touch_x'] > this.x && touches[i]['touch_x'] < this.x + this.width && touches[i]['touch_y'] > this.y && touches[i]['touch_y'] < this.y + this.height)
+            {
+                return true;
+            }
+
+        }
+
+        return false;
 
     }
 

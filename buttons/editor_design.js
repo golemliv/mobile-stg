@@ -29,6 +29,7 @@ class Editor_Design extends List_Button
         this.list_height = this.y;
 
         this.list_y_offset = 0;
+
     }
 
     click_check(touches)
@@ -68,6 +69,19 @@ console.log('paths');
     curr_obj_get()
     {
         return this.options[this.option_index];
+    }
+
+    draw()
+    {
+
+        //don't show this button if you're doing a test play
+        if(button_canvas.button_get('obj_grid').playing_get())
+        {
+            return;
+        }
+
+        super.draw();
+
     }
 
     press()

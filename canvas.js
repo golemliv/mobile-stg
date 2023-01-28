@@ -51,11 +51,13 @@ class Canvas
 
     button_remove(name)
     {
+
         for(var i = 0; i < this.buttons.length; i++)
         {
             if(this.buttons[i].name_get() == name)
             {
                 this.buttons.splice(i, 1);
+                i--;
             }
         }
     }
@@ -265,7 +267,14 @@ class Canvas
 
     mouse_up(evt)
     {
-        this.touches = new Array();
+//        this.touches = new Array();
+
+        //mark all touches as being released
+        for(var i = 0; i < this.touches.length; i++)
+        {
+            this.touches[i]['event'] = 'release';
+        }
+
         this.last_touch = null;
 
         if(evt != null)
@@ -370,6 +379,15 @@ class Canvas
         //draw the user's touch
         for(var i = 0; i < this.touches.length; i++)
         {
+
+            //if this touch is being released, remove it
+            if(this.touches[i]['event'] == 'release')
+            {
+                this.touches.splice(i, 1);
+                i--;
+                continue;
+            }
+
             this.context.beginPath();
             this.context.arc(this.touches[i]['touch_x'], this.touches[i]['touch_y'], game_info['width'] / 20, 0, 2 * Math.PI);
             this.context.fillStyle = 'rgba(100, 255, 255, 0.5)';
@@ -444,7 +462,8 @@ class Canvas
         for (var i = 0; i < new_touches.length; i++)
         {
             var idx = ongoingTouchIndexById(new_touches[i].identifier);
-            this.touches.splice(idx, 1);  // remove it; we're done
+//            this.touches.splice(idx, 1);  // remove it; we're done
+            this.touches[i]['event'] = 'release';
         }
 
     }

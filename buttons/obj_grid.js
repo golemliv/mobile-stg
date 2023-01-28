@@ -126,6 +126,19 @@ class Obj_Grid extends Button
                     this.click_x = touches[i]['touch_x'] - this.x - this.x_offset;
                     this.click_y = touches[i]['touch_y'] - this.y - this.y_offset;
                 }
+                else if(touches[i]['event'] == 'release')
+                {
+
+                    this.x_curr_drag = 0;
+                    this.y_curr_drag = 0;
+
+                    if(this.click_x != null && this.click_y != null && this.click_x >= 0 && this.click_x <= 0 + this.width && this.click_y >= (-1 * this.y_offset) && this.click_y <= 0 + this.height)
+                    {
+                        this.press();
+                        this.click_x = null;
+                        this.click_y = null;
+                    }
+                }
 
                 if(game_canvas.level_get().object_get('Obj_Grid_Draw') != null)
                 {
@@ -136,25 +149,9 @@ class Obj_Grid extends Button
             }
         }
 
-//console.log('click check', this.y_offset);
-
         if(game_canvas.level_get().object_get('Obj_Grid_Draw') != null)
         {
             game_canvas.level_get().object_get('Obj_Grid_Draw').offset_set(this.x_offset, this.y_offset);
-        }
-
-        if(touches.length == 0)
-        {
-
-            this.x_curr_drag = 0;
-            this.y_curr_drag = 0;
-
-            if(this.click_x != null && this.click_y != null && this.click_x >= 0 && this.click_x <= 0 + this.width && this.click_y >= (-1 * this.y_offset) && this.click_y <= 0 + this.height)
-            {
-                this.press();
-                this.click_x = null;
-                this.click_y = null;
-            }
         }
 
         this.pressed = false;
@@ -185,7 +182,7 @@ class Obj_Grid extends Button
 
         if(this.curr_obj != null)
         {
-            this.canvas.context_get().fillText(this.curr_obj['label'], this.x, this.y + this.font_size);
+            this.canvas.context_get().fillText(this.curr_obj['display'], this.x, this.y + this.font_size);
         }
 
         //draw context menu when right-clicking

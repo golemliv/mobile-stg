@@ -55,25 +55,33 @@ class List extends Button
                 var dist = button_canvas.drag_get_y(touches[i]);
                 this.list_y_offset -= dist;
 
+                var list_bottom = ((this.button_height + this.button_margin) * this.options.length) - this.button_margin;
+
                 //limit the drag within the bounds of the object list
-                if(this.list_y_offset > 0)
+                if(this.list_y_offset > 0 || this.height > list_bottom)
                 {
                     this.list_y_offset = 0;
                 }
-                else if(this.list_y_offset < (this.height - ((this.button_height + this.button_margin) * this.options.length)) + this.button_margin)
+                else if(this.list_y_offset < (this.height - list_bottom))
                 {
-                    this.list_y_offset = (this.height - ((this.button_height + this.button_margin) * this.options.length) + this.button_margin);
+                    this.list_y_offset = this.height - list_bottom;
                 }
 
                 this.option_index = Math.floor((touches[i]['touch_y'] - this.list_y_offset - this.y) / (this.button_height + this.button_margin));
 
                 if(this.option_index > this.options.length - 1)
                 {
+                    button_canvas.button_get('obj_grid').curr_obj_set(null);
                     this.option_index = this.options.length - 1;
                 }
                 else if(this.option_index < 0)
                 {
+                    button_canvas.button_get('obj_grid').curr_obj_set(null);
                     this.option_index = 0;
+                }
+                else
+                {
+                    button_canvas.button_get('obj_grid').curr_obj_set(this.options[this.option_index]);
                 }
 
                 return true;

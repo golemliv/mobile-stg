@@ -71,14 +71,16 @@ class List_Button extends Button
                 var dist = button_canvas.drag_get_y(touches[i]);
                 this.list_y_offset -= dist;
 
+                var list_bottom = (this.button_height + this.button_margin) * this.options.length;
+
                 //limit the drag within the bounds of the object list
-                if(this.list_y_offset > 0)
+                if(this.list_y_offset > 0 || this.list_height > list_bottom)
                 {
                     this.list_y_offset = 0;
                 }
-                else if(this.list_y_offset < (this.list_height - ((this.button_height + this.button_margin) * this.options.length)))
+                else if(this.list_y_offset < (this.list_height - list_bottom))
                 {
-                    this.list_y_offset = (this.list_height - ((this.button_height + this.button_margin) * this.options.length));
+                    this.list_y_offset = this.list_height - list_bottom;
                 }
 
                 this.option_index = Math.floor((touches[i]['touch_y'] - this.list_y_offset) / (this.button_height + this.button_margin));

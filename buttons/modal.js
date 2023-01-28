@@ -24,10 +24,20 @@ class Modal extends Button
     click_check(touches)
     {
 
+        var hit = false;
+
         for(var i = 0; i < this.child_objects.length; i++)
         {
-            this.child_objects[i].click_check(touches);
+            hit = this.child_objects[i].click_check(touches);
+
+            //if your click hit something, stop propagating
+            if(hit)
+            {
+                break;
+            }
         }
+
+        return hit;
 
     }
 

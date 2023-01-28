@@ -76,9 +76,13 @@ class List extends Button
                     this.option_index = 0;
                 }
 
+                return true;
+
             }
 
         }
+
+        return false;
 
     }
 

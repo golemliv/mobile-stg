@@ -23,9 +23,19 @@ class Canvas
         this.last_y = 0;
     }
 
-    button_add(button)
+    //use push_to_top to push something to the top of the click-checking queue
+    button_add(button, push_to_top)
     {
-        this.buttons.push(button);
+
+        if(push_to_top == null)
+        {
+            this.buttons.push(button);
+        }
+        else
+        {
+            this.buttons.unshift(button);
+        }
+
     }
 
     button_get(name)
@@ -327,9 +337,21 @@ class Canvas
         }
 
         //check buttons
-        for(var i = 0; i < this.buttons.length; i++)
+        if(this.touches.length > 0)
         {
-            this.buttons[i].click_check(this.touches);
+            var hit = false;
+            for(var i = 0; i < this.buttons.length; i++)
+            {
+                //if you hit something, stop propagating
+                if(!hit)
+                {
+                    hit = this.buttons[i].click_check(this.touches);
+                }
+                else
+                {
+                    this.buttons[i].click_check(new Array());
+                }
+            }
         }
 
         //don't run the game if you're paused
@@ -339,7 +361,8 @@ class Canvas
         }
 
         //check buttons
-        for(var i = 0; i < this.buttons.length; i++)
+        //draw in reverse order, drawing the highest priority ones latest
+        for(var i = this.buttons.length - 1; i >= 0; i--)
         {
             this.buttons[i].draw();
         }

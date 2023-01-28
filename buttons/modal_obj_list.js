@@ -18,6 +18,9 @@ class Modal_Obj_List extends Modal
         this.font_style = this.font_size.toString() + 'px ' + game_info['font_face'];
 
         this.list_y_offset = 0;
+
+        this.child_add(new constructors['List_Objects'](0, 0, 0, button_canvas, null));
+
     }
 
     draw()

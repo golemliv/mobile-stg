@@ -34,7 +34,7 @@ class Obj_Grid extends Button
 
         this.objects = new Array();
 
-        this.curr_obj_name = '';
+        this.curr_obj = null;
 
         canvas.right_click_callback_set(this.right_click.bind(this));
 
@@ -172,9 +172,9 @@ class Obj_Grid extends Button
     }
 
     //use this to set the display at the top left
-    curr_obj_name_set(name)
+    curr_obj_set(obj)
     {
-        this.curr_obj_name = name;
+        this.curr_obj = obj;
     }
 
     draw()
@@ -183,7 +183,10 @@ class Obj_Grid extends Button
         this.canvas.context_get().fillStyle = this.font_fill;
         this.canvas.context_get().font = this.font_style;
 
-        this.canvas.context_get().fillText(this.curr_obj_name, this.x, this.y + this.font_size);
+        if(this.curr_obj != null)
+        {
+            this.canvas.context_get().fillText(this.curr_obj['label'], this.x, this.y + this.font_size);
+        }
 
         //draw context menu when right-clicking
 
@@ -214,10 +217,7 @@ class Obj_Grid extends Button
     press()
     {
 
-        var obj_button = button_canvas.button_get('obj_list');
-        var obj = obj_button.curr_obj_get();
-
-        if(obj == null)
+        if(this.curr_obj == null)
         {
             return;
         }
@@ -225,7 +225,7 @@ class Obj_Grid extends Button
         var obj_x = Math.floor((this.click_x / game_info['inner_ratio']) / this.tile_size) * this.tile_size;
         var obj_y = Math.floor((this.click_y / game_info['inner_ratio']) / this.tile_size) * this.tile_size;
 
-        var new_obj = new constructors[obj['constructor']](obj_x, obj_y, obj['extra']);
+        var new_obj = new constructors[this.curr_obj['constructor']](obj_x, obj_y, this.curr_obj['extra']);
 
         game_canvas.level_get().object_get('Obj_Grid_Draw').object_add(new_obj);
 

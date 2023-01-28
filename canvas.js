@@ -319,7 +319,7 @@ class Canvas
     {
 
 //        this.context.clearRect(this.x, this.y, game_info['inner_width'], game_info['inner_height']);
-        this.context.clearRect(this.x, this.y, game_info['inner_ratio'] * parseFloat(this.dom_obj.getAttribute('width')),  game_info['inner_ratio'] * parseFloat(this.dom_obj.getAttribute('height')));
+        this.context.clearRect(this.x, this.y, game_info['inner_ratio'] * parseFloat(this.dom_obj.getAttribute('width')), game_info['inner_ratio'] * parseFloat(this.dom_obj.getAttribute('height')));
 
         for(var i = 0; i < this.debug_text.length; i++)
         {

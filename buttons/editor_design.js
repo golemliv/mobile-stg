@@ -50,9 +50,7 @@ class Editor_Design extends List_Button
         {
             case 'Objects':
                 this.canvas.mouse_up(null);
-
-button_canvas.button_add(new constructors['Modal_Obj_List'](0, 0, 0, button_canvas, null));
-
+                button_canvas.button_add(new constructors['Modal_Obj_List'](0, 0, 0, button_canvas, null));
                 break;
 
             case 'Paths':

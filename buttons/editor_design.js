@@ -55,7 +55,8 @@ class Editor_Design extends List_Button
                 break;
 
             case 'Paths':
-console.log('paths');
+                this.canvas.mouse_up(null);
+                button_canvas.button_add(new constructors['Modal_Path_Editor'](0, 0, 0, button_canvas, null), true);
                 break;
 
         }

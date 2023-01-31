@@ -24,7 +24,8 @@ class Button
         this.button_fill = 'rgba(255, 255, 255, 1)';
         this.font_fill = 'rgba(0, 0, 0, 1)';
         this.font_size = 10 * game_info['inner_ratio'];
-        this.font_style = this.font_size.toString() + 'px ' + game_info['font_face'];
+        this.font_face = game_info['font_face'];
+        this.font_style = this.font_size.toString() + 'px ' + this.font_face;
 
         this.label = '';
 
@@ -71,6 +72,12 @@ class Button
         this.canvas.context_get().fillStyle = this.font_fill;
         var text = this.canvas.context_get().measureText(this.label);
         this.canvas.context_get().fillText(this.label, this.x - (text.width / 2), this.y + (this.font_size / 3));
+    }
+
+    font_size_set(size)
+    {
+        this.font_size = size;
+        this.font_style = this.font_size.toString() + 'px ' + this.font_face;
     }
 
     is_pressed()
